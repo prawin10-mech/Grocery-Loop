@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grocery Loop - Columbus Hybrid Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & SETUP --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #525659; /* PDF Viewer Grey */
+            font-family: 'Inter', sans-serif;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .document-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            gap: 40px;
+        }
+
+        .page {
+            width: 8.5in;
+            height: 11in;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- COLORS & UTILS --- */
+        :root {
+            --kroger: #15803d; /* Kroger Green */
+            --aldi: #002d72; /* Aldi Blue */
+            --aldi-accent: #f59e0b; /* Aldi Orange/Yellow */
+            --accent-light: #ffedd5;
+            --text: #1f2937;
+            --gray: #9ca3af;
+        }
+
+        /* --- PAGE 1: COVER --- */
+        .cover-header {
+            background: linear-gradient(135deg, var(--kroger) 50%, var(--aldi) 50%);
+            color: white;
+            padding: 60px 50px;
+            position: relative;
+            height: 35%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand-circle {
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            margin: 0;
+            line-height: 0.9;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 20px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .cover-body {
+            padding: 50px;
+            flex: 1;
+            position: relative;
+        }
+
+        .analysis-badge {
+            background-color: var(--accent-light);
+            color: #c2410c;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border: 1px solid #fed7aa;
+        }
+
+        .price-hero {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .big-price {
+            font-size: 80px;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: -2px;
+        }
+
+        .price-context {
+            font-size: 14px;
+            color: var(--gray);
+            max-width: 150px;
+            line-height: 1.4;
+        }
+
+        .location-pin {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: auto;
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+        }
+        
+        .store-pill {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: white;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .bg-kroger { background-color: var(--kroger); }
+        .bg-aldi { background-color: var(--aldi); }
+
+        /* --- PAGES 2 & 3: RECIPES --- */
+        .page-header {
+            padding: 40px 50px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--text);
+        }
+
+        .recipe-card {
+            padding: 30px 50px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .recipe-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--text);
+            margin: 0;
+        }
+        
+        .recipe-meta {
+            font-size: 11px;
+            color: #6b7280;
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .day-badge {
+            background: var(--text);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .recipe-grid {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .ingredients-col {
+            flex: 1;
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .steps-col {
+            flex: 2;
+        }
+
+        h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        li {
+            font-size: 12px;
+            color: #374151;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .step-num {
+            font-weight: 800;
+            color: var(--aldi-accent);
+            margin-right: 5px;
+        }
+
+        .tag {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+            color: white;
+        }
+
+        /* --- PAGE 4: LIST --- */
+        .list-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px 50px;
+            gap: 40px;
+        }
+
+        .list-col {
+            flex: 1;
+            min-width: 250px;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .kroger-col { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .aldi-col { background: #eff6ff; border: 1px solid #bfdbfe; }
+
+        .list-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .store-logo {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: -1px;
+        }
+        .kroger-text { color: var(--kroger); }
+        .aldi-text { color: var(--aldi); }
+
+        .check-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .check-box {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 4px;
+            margin-right: 12px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .item-price {
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .footer {
+            margin-top: auto;
+            background: #f9fafb;
+            padding: 20px 50px;
+            font-size: 10px;
+            color: var(--gray);
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        /* --- PRINT SETTINGS --- */
+        @media print {
+            body { 
+                background: white; 
+            }
+            .document-container {
+                padding: 0;
+                gap: 0;
+                display: block; /* Important for page breaks */
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+                width: 100%;
+                height: 100vh;
+            }
+            .page:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="document-container">
+        
+        <!-- PAGE 1: COVER -->
+        <div class="page">
+            <div class="cover-header">
+                <div class="brand-circle"></div>
+                <h1>The Grocery Loop</h1>
+                <div class="subtitle">Dec 5 Edition • Hybrid Plan</div>
+            </div>
+            
+            <div class="cover-body">
+                <div class="analysis-badge">
+                    <span>📊 Dual-Store Analysis: Kroger + Aldi</span>
+                </div>
+
+                <div class="price-hero">
+                    <div class="big-price">$41.80</div>
+                    <div class="price-context">
+                        Total cost for 5 dinners using our "Two Stop" strategy.
+                    </div>
+                </div>
+
+                <p style="font-size: 18px; color: #374151; line-height: 1.6;">
+                    <strong>The Hybrid Strategy.</strong><br>
+                    This week, the smart money splits the trip. We use <strong>Kroger</strong> for their incredible meat doorbusters (Pork Loin & Steaks) and <strong>Aldi</strong> for the pantry staples (Canned Goods, Potatoes, Onions) where they beat Kroger's prices by 20%.
+                </p>
+
+                <div class="location-pin">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Optimized for Columbus, OH (Zip: 43215)
+                </div>
+            </div>
+            <div class="footer">Page 1 of 4 • www.groceryloop.com</div>
+        </div>
+
+        <!-- PAGE 2: RECIPES (Mon-Wed) -->
+        <div class="page">
+            <div class="page-header">
+                <div class="page-title">Recipes (Part 1)</div>
+            </div>
+
+            <!-- Monday -->
+            <div class="recipe-card">
+                <div class="recipe-header">
+                    <div>
+                        <h2 class="recipe-title">Herb Roasted Pork Loin & Apples</h2>
+                        <div class="recipe-meta">Prep: 10 min • Cook: 45 min</div>
+                    </div>
+                    <div class="day-badge">MON</div>
+                </div>
+                <div class="recipe-grid">
+                    <div class="ingredients-col">
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <li>2 lbs Boneless Pork Loin <span class="tag bg-kroger">KROGER</span></li>
+                            <li>3 Honeycrisp Apples <span class="tag bg-kroger">KROGER</span></li>
+                            <li>1 Onion <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Olive Oil & Thyme</li>
+                        </ul>
+                    </div>
+                    <div class="steps-col">
+                        <h4>Instructions</h4>
+                        <p><span class="step-num">1.</span> Preheat oven to 400°F. Rub pork loin with oil, salt, pepper, and thyme.</p>
+                        <p><span class="step-num">2.</span> Place pork in the center of a baking sheet. Surround with sliced apples and onions.</p>
+                        <p><span class="step-num">3.</span> Roast for 40-50 minutes until pork reaches 145°F internal temp. Rest for 10 minutes before slicing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="recipe-card">
+                <div class="recipe-header">
+                    <div>
+                        <h2 class="recipe-title">Pork Tacos with Peppers</h2>
+                        <div class="recipe-meta">Prep: 15 min • Cook: 10 min</div>
+                    </div>
+                    <div class="day-badge">TUE</div>
+                </div>
+                <div class="recipe-grid">
+                    <div class="ingredients-col">
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <li>Leftover Roasted Pork</li>
+                            <li>2 Green Bell Peppers <span class="tag bg-aldi">ALDI</span></li>
+                            <li>1/2 Onion, sliced <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Corn Tortillas <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Lime & Cilantro</li>
+                        </ul>
+                    </div>
+                    <div class="steps-col">
+                        <h4>Instructions</h4>
+                        <p><span class="step-num">1.</span> Thinly slice the leftover cold pork.</p>
+                        <p><span class="step-num">2.</span> Sauté peppers and onions in a hot pan until soft (5 mins). Add pork and a splash of water/taco seasoning to heat through.</p>
+                        <p><span class="step-num">3.</span> Serve in warm tortillas with your favorite toppings.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="recipe-card">
+                <div class="recipe-header">
+                    <div>
+                        <h2 class="recipe-title">Creamy Tomato Spinach Pasta</h2>
+                        <div class="recipe-meta">Prep: 5 min • Cook: 15 min</div>
+                    </div>
+                    <div class="day-badge">WED</div>
+                </div>
+                <div class="recipe-grid">
+                    <div class="ingredients-col">
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <li>1 box Pasta <span class="tag bg-kroger">KROGER</span></li>
+                            <li>1 can Diced Tomatoes <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Frozen Spinach <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Milk or Cream</li>
+                        </ul>
+                    </div>
+                    <div class="steps-col">
+                        <h4>Instructions</h4>
+                        <p><span class="step-num">1.</span> Boil pasta according to box instructions.</p>
+                        <p><span class="step-num">2.</span> While boiling, simmer tomatoes and spinach in a pan with spices. Stir in milk to make it creamy.</p>
+                        <p><span class="step-num">3.</span> Drain pasta and toss directly into the sauce. Simmer 1 minute to coat.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">Page 2 of 4 • © 2025 The Grocery Loop</div>
+        </div>
+
+        <!-- PAGE 3: RECIPES (Thu-Fri) -->
+        <div class="page">
+            <div class="page-header">
+                <div class="page-title">Recipes (Part 2)</div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="recipe-card">
+                <div class="recipe-header">
+                    <div>
+                        <h2 class="recipe-title">Steakhouse Night at Home</h2>
+                        <div class="recipe-meta">Prep: 10 min • Cook: 20 min</div>
+                    </div>
+                    <div class="day-badge">THU</div>
+                </div>
+                <div class="recipe-grid">
+                    <div class="ingredients-col">
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <li>1 large T-Bone Steak <span class="tag bg-kroger">KROGER</span></li>
+                            <li>3 Russet Potatoes <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Butter & Garlic</li>
+                            <li>Frozen Peas <span class="tag bg-aldi">ALDI</span></li>
+                        </ul>
+                    </div>
+                    <div class="steps-col">
+                        <h4>Instructions</h4>
+                        <p><span class="step-num">1.</span> Cut potatoes into wedges. Toss with oil/salt. Roast at 425°F for 25 mins.</p>
+                        <p><span class="step-num">2.</span> Season steak heavily with salt/pepper. Sear in a hot skillet for 4 mins per side (medium-rare). Baste with butter.</p>
+                        <p><span class="step-num">3.</span> Slice steak against the grain and serve with crispy potatoes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friday -->
+            <div class="recipe-card">
+                <div class="recipe-header">
+                    <div>
+                        <h2 class="recipe-title">"End of Week" Pork Fried Rice</h2>
+                        <div class="recipe-meta">Prep: 10 min • Cook: 10 min</div>
+                    </div>
+                    <div class="day-badge">FRI</div>
+                </div>
+                <div class="recipe-grid">
+                    <div class="ingredients-col">
+                        <h4>Ingredients</h4>
+                        <ul>
+                            <li>Remaining Roast Pork</li>
+                            <li>Rice (Cold) <span class="tag bg-aldi">ALDI</span></li>
+                            <li>3 Eggs <span class="tag bg-kroger">KROGER</span></li>
+                            <li>Frozen Peas/Carrots <span class="tag bg-aldi">ALDI</span></li>
+                            <li>Soy Sauce</li>
+                        </ul>
+                    </div>
+                    <div class="steps-col">
+                        <h4>Instructions</h4>
+                        <p><span class="step-num">1.</span> Scramble eggs in a large pan/wok. Remove and set aside.</p>
+                        <p><span class="step-num">2.</span> Fry diced pork and veggies in oil until hot. Add cold rice and soy sauce. Fry on high heat.</p>
+                        <p><span class="step-num">3.</span> Stir eggs back in. Taste and add pepper or sriracha.</p>
+                    </div>
+                </div>
+            </div>
+
+             <div style="margin: 40px 50px; padding: 30px; background: #ecfccb; border-radius: 12px; border: 1px dashed #65a30d;">
+                <h3 style="margin-top: 0; color: #365314;">🎉 Weekend Bonus: Apple Crumble</h3>
+                <p style="font-size: 13px; color: #3f6212;">Since <strong>Honeycrisp Apples</strong> are only $1.49/lb at Kroger, buy 3 extra! Peel and slice them, toss with cinnamon and sugar, top with a mix of oats/flour/butter, and bake at 350°F for 40 mins. A $3 dessert!</p>
+            </div>
+
+            <div class="footer">Page 3 of 4 • © 2025 The Grocery Loop</div>
+        </div>
+
+        <!-- PAGE 4: SPLIT SHOPPING LIST -->
+        <div class="page">
+            <div class="page-header">
+                <div class="page-title">The Split Shopping List</div>
+                <div style="font-size: 12px; color: #6b7280; margin-top: 5px;">Divide and conquer for maximum savings.</div>
+            </div>
+
+            <div class="list-container">
+                
+                <!-- STOP 1: KROGER -->
+                <div class="list-col kroger-col">
+                    <div class="list-header">
+                        <span class="store-logo kroger-text">Kroger</span>
+                        <span style="font-size: 10px; color: #15803d; background: #dcfce7; padding: 2px 6px; border-radius: 4px;">STOP #1</span>
+                    </div>
+                    
+                    <div style="font-size: 11px; margin-bottom: 10px; color: #15803d; font-weight: 700;">MEAT & PRODUCE DEALS</div>
+                    
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Boneless Pork Loin (3lb)</div>
+                        <div class="item-price">$4.47</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>T-Bone Steak (1 large)</div>
+                        <div class="item-price">$6.99</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Honeycrisp Apples (2 lbs)</div>
+                        <div class="item-price">$2.98</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Kroger Eggs (18 ct)</div>
+                        <div class="item-price">$1.49</div>
+                    </div>
+                     <div class="check-item">
+                        <div><span class="check-box"></span>Pasta (2 boxes - BOGO)</div>
+                        <div class="item-price">$1.49</div>
+                    </div>
+
+                    <div style="margin-top: 20px; font-size: 10px; color: #15803d;">
+                        *Make sure to clip the digital coupon for Eggs in the app!
+                    </div>
+                </div>
+
+                <!-- STOP 2: ALDI -->
+                <div class="list-col aldi-col">
+                    <div class="list-header">
+                        <span class="store-logo aldi-text">ALDI</span>
+                        <span style="font-size: 10px; color: #002d72; background: #dbeafe; padding: 2px 6px; border-radius: 4px;">STOP #2</span>
+                    </div>
+
+                    <div style="font-size: 11px; margin-bottom: 10px; color: #002d72; font-weight: 700;">PANTRY & SIDES</div>
+
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Russet Potatoes (5lb)</div>
+                        <div class="item-price">$2.99</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Yellow Onions (3lb)</div>
+                        <div class="item-price">$2.29</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Green Bell Peppers (2)</div>
+                        <div class="item-price">$1.79</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Canned Diced Tomatoes</div>
+                        <div class="item-price">$0.89</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Frozen Peas</div>
+                        <div class="item-price">$0.95</div>
+                    </div>
+                    <div class="check-item">
+                        <div><span class="check-box"></span>Frozen Spinach</div>
+                        <div class="item-price">$1.15</div>
+                    </div>
+                     <div class="check-item">
+                        <div><span class="check-box"></span>Rice (Bag)</div>
+                        <div class="item-price">$1.65</div>
+                    </div>
+                     <div class="check-item">
+                        <div><span class="check-box"></span>Corn Tortillas</div>
+                        <div class="item-price">$1.45</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">Page 4 of 4 • © 2025 The Grocery Loop</div>
+        </div>
+
+    </div>
+
+</body>
+</html>

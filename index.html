@@ -3,7 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Grocery Loop | Columbus</title>
+    <title>The Grocery Loop | Columbus Hybrid Edition</title>
+
+    <!-- FAVICON (Shopping Cart Emoji) -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>"
+    />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phosphor Icons -->
@@ -250,20 +257,24 @@
           >
         </div>
 
-        <!-- Main Headline -->
+        <!-- Main Headline (UPDATED) -->
         <h1
           class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight"
         >
-          Stop overpaying at <br />
-          <span class="text-green-600">Kroger & Aldi.</span>
+          The Two-Store Hack: <br />
+          <span class="text-green-600">Kroger Meat + Aldi Sides.</span>
         </h1>
 
-        <!-- Subhead -->
+        <!-- Subhead (UPDATED) -->
         <p
           class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          We analyze the weekly flyers. We build a meal plan using
-          <b>only</b> what's on sale. You save $200+ a month on groceries.
+          We analyzed the flyers. If you buy your meat at Kroger and your
+          veggies at Aldi this week, you save 30%.
+          <br />
+          <strong class="text-green-700"
+            >Get the full split-shopping list for free.</strong
+          >
         </p>
 
         <!-- Email Form -->
@@ -286,7 +297,7 @@
             type="submit"
             class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-200 transition-all flex items-center justify-center gap-2"
           >
-            Get This Week's Plan (Free)
+            Get The $41 Plan (Free)
             <i class="ph-bold ph-arrow-right"></i>
           </button>
         </form>
@@ -327,7 +338,7 @@
       </div>
     </div>
 
-    <!-- The "Problem" Section -->
+    <!-- The "Problem" Section (UPDATED) -->
     <section class="py-16 bg-white border-b border-gray-50">
       <div
         class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center"
@@ -338,40 +349,40 @@
           >
             <i class="ph-duotone ph-trend-up text-2xl"></i>
           </div>
-          <h3 class="font-bold text-gray-900 mb-2">Prices are Up</h3>
+          <h3 class="font-bold text-gray-900 mb-2">Inflation is Real</h3>
           <p class="text-sm text-gray-500 leading-relaxed">
-            Eggs, meat, and produce cost 30% more than last year. Random
-            shopping is destroying your budget.
+            Meat prices at standard stores are up 20%. But "Loss Leaders"
+            (sales) are actually cheaper than 2019.
           </p>
         </div>
         <div>
           <div
             class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-orange-500"
           >
-            <i class="ph-duotone ph-brain text-2xl"></i>
+            <i class="ph-duotone ph-map-pin text-2xl"></i>
           </div>
-          <h3 class="font-bold text-gray-900 mb-2">Decision Fatigue</h3>
+          <h3 class="font-bold text-gray-900 mb-2">The Location Arbitrage</h3>
           <p class="text-sm text-gray-500 leading-relaxed">
-            "What's for dinner?" is the most stressful question of the day. We
-            answer it for you.
+            Aldi is cheaper for cans and veggies. Kroger is cheaper for meat
+            *if* you buy the sale items.
           </p>
         </div>
         <div>
           <div
             class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-green-500"
           >
-            <i class="ph-duotone ph-check-circle text-2xl"></i>
+            <i class="ph-duotone ph-calculator text-2xl"></i>
           </div>
           <h3 class="font-bold text-gray-900 mb-2">We Do The Math</h3>
           <p class="text-sm text-gray-500 leading-relaxed">
-            We don't just give recipes. We match recipes to current Kroger sales
-            to guarantee savings.
+            We analyzed 400+ items to build the perfect "Two-Store Route" for
+            you this week.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- NEW: The "Receipt Battle" Section -->
+    <!-- NEW: The "Receipt Battle" Section (UPDATED TOTALS) -->
     <section class="py-20 bg-gray-50 overflow-hidden">
       <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-16">
@@ -379,8 +390,7 @@
             See The Math.
           </h2>
           <p class="text-gray-500 mt-4">
-            We compared a "Normal" shop vs. a "Grocery Loop" shop for the same 5
-            dinners.
+            Typical Shopping vs. The Grocery Loop Hybrid Strategy.
           </p>
         </div>
 
@@ -394,29 +404,27 @@
             <div
               class="absolute -top-3 -right-3 bg-red-100 text-red-600 font-bold px-3 py-1 rounded-full text-xs"
             >
-              Typical Shopper
+              Generic Run
             </div>
             <div class="text-center border-b pb-4 mb-4">
-              <h4 class="font-mono font-bold text-lg uppercase">
-                Generic Mart
-              </h4>
-              <p class="text-xs text-gray-400">10/24/2025</p>
+              <h4 class="font-mono font-bold text-lg uppercase">Supermarket</h4>
+              <p class="text-xs text-gray-400">12/05/2025</p>
             </div>
             <div class="space-y-3 font-mono text-sm text-gray-500">
               <div class="flex justify-between">
-                <span>Ribeye Steak</span><span>$24.99</span>
+                <span>Pork Loin (3lb)</span><span>$14.99</span>
               </div>
               <div class="flex justify-between">
-                <span>Asparagus</span><span>$5.99</span>
+                <span>Bell Peppers (2)</span><span>$3.50</span>
               </div>
               <div class="flex justify-between">
-                <span>Pasta Sauce</span><span>$8.50</span>
+                <span>Potatoes (5lb)</span><span>$5.99</span>
               </div>
               <div class="flex justify-between">
-                <span>Chicken Breast</span><span>$14.20</span>
+                <span>T-Bone Steak</span><span>$15.50</span>
               </div>
               <div class="flex justify-between">
-                <span>Fancy Cheese</span><span>$9.99</span>
+                <span>Eggs (18ct)</span><span>$5.29</span>
               </div>
               <div class="flex justify-between">
                 <span>... 15 items</span><span>---</span>
@@ -437,7 +445,7 @@
             <span class="font-black text-xl text-gray-300">VS</span>
           </div>
 
-          <!-- Winning Receipt -->
+          <!-- Winning Receipt (UPDATED WITH HYBRID DATA) -->
           <div
             class="bg-white p-6 pb-12 rounded-sm shadow-xl border border-green-100 w-full max-w-xs transform rotate-[2deg] relative"
           >
@@ -448,41 +456,36 @@
             </div>
             <div class="text-center border-b pb-4 mb-4">
               <h4 class="font-mono font-bold text-lg uppercase text-green-700">
-                Grocery Loop
+                Hybrid Run
               </h4>
-              <p class="text-xs text-gray-400">Optimized for Deals</p>
+              <p class="text-xs text-gray-400">Kroger + Aldi</p>
             </div>
             <div class="space-y-3 font-mono text-sm text-gray-800">
               <div class="flex justify-between items-center">
                 <span
-                  >Chuck Roast
+                  >Pork (Kroger)
                   <span
                     class="text-xs bg-yellow-100 px-1 rounded text-yellow-700"
                     >SALE</span
                   ></span
                 >
-                <span>$12.50</span>
+                <span>$4.47</span>
               </div>
               <div class="flex justify-between items-center">
-                <span>Carrots (Bulk)</span>
-                <span>$1.29</span>
+                <span>T-Bone (Kroger)</span>
+                <span>$6.99</span>
               </div>
               <div class="flex justify-between items-center">
-                <span
-                  >Pasta
-                  <span class="text-xs bg-green-100 px-1 rounded text-green-700"
-                    >BOGO</span
-                  ></span
-                >
-                <span>$1.00</span>
+                <span>Peppers (Aldi)</span>
+                <span>$1.79</span>
               </div>
               <div class="flex justify-between items-center">
-                <span>Thighs (Family)</span>
-                <span>$5.50</span>
+                <span>Potatoes (Aldi)</span>
+                <span>$2.99</span>
               </div>
               <div class="flex justify-between items-center">
-                <span>Block Cheese</span>
-                <span>$3.50</span>
+                <span>Eggs (Kroger Dig.)</span>
+                <span>$1.49</span>
               </div>
               <div class="flex justify-between">
                 <span>... 15 items</span><span>---</span>
@@ -493,10 +496,10 @@
                 class="flex justify-between font-bold text-2xl text-green-600"
               >
                 <span>TOTAL</span>
-                <span>$48.12</span>
+                <span>$41.80</span>
               </div>
               <p class="text-center text-xs text-gray-400 mt-2">
-                Same amount of food. Better math.
+                Same food. Two Stops.
               </p>
             </div>
             <!-- Jagged Bottom Effect -->
@@ -804,6 +807,17 @@
         <div class="space-y-4">
           <div class="bg-white p-5 rounded-lg border border-gray-200">
             <h4 class="font-bold text-gray-900 flex items-center gap-2">
+              <i class="ph-bold ph-question text-green-600"></i> Why two stores?
+            </h4>
+            <p class="text-sm text-gray-600 mt-2 pl-6">
+              Arbitrage. Kroger has better "Loss Leader" prices on meat to get
+              you in the door. Aldi has consistently lower prices on pantry
+              goods (cans, rice, sides). Splitting the trip saves you ~30%.
+            </p>
+          </div>
+
+          <div class="bg-white p-5 rounded-lg border border-gray-200">
+            <h4 class="font-bold text-gray-900 flex items-center gap-2">
               <i class="ph-bold ph-question text-green-600"></i> Is this just
               beans and rice?
             </h4>
@@ -811,17 +825,6 @@
               No! We focus on whole foods. Typical weeks include Roasted
               Chicken, Taco Bowls, Pasta with real vegetables, and hearty soups.
               We just buy the meat that is on sale.
-            </p>
-          </div>
-
-          <div class="bg-white p-5 rounded-lg border border-gray-200">
-            <h4 class="font-bold text-gray-900 flex items-center gap-2">
-              <i class="ph-bold ph-question text-green-600"></i> Which stores
-              does this work for?
-            </h4>
-            <p class="text-sm text-gray-600 mt-2 pl-6">
-              Currently optimized for **Kroger** and **Aldi** in Columbus. We
-              check their digital flyers every Tuesday night to build the plan.
             </p>
           </div>
 
