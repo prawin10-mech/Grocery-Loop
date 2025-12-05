@@ -37,51 +37,132 @@
         box-shadow: 0 20px 40px -10px rgba(22, 163, 74, 0.15);
       }
 
-      /* Loading Animation */
-      .dot-flashing {
+      /* --- NEW: Chef's Pan Toss Animation --- */
+      .cooking-loader {
         position: relative;
-        width: 10px;
-        height: 10px;
-        border-radius: 5px;
-        background-color: #16a34a;
-        color: #16a34a;
-        animation: dot-flashing 1s infinite linear alternate;
-        animation-delay: 0.5s;
+        width: 60px;
+        height: 40px;
+        margin: 0 auto;
+        transform: scale(0.9); /* Fit nicely in button */
       }
-      .dot-flashing::before,
-      .dot-flashing::after {
-        content: "";
-        display: inline-block;
+
+      .pan-wrapper {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        animation: pan-toss 1.4s infinite ease-in-out;
+        transform-origin: 45px 25px; /* Pivot near handle */
+      }
+
+      .pan-body {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        width: 35px;
+        height: 16px;
+        background: #16a34a; /* Green-600 */
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border: 3px solid #14532d; /* Green-900 */
+        border-top: none;
+        z-index: 10;
+      }
+
+      .pan-handle {
+        position: absolute;
+        bottom: 16px;
+        left: 42px;
+        width: 18px;
+        height: 5px;
+        background: #14532d; /* Green-900 */
+        border-radius: 0 4px 4px 0;
+        transform: rotate(-10deg);
+      }
+
+      .food-bits {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        width: 6px;
+        height: 6px;
+        background: #facc15; /* Yellow Corn */
+        border-radius: 50%;
+        /* Creating multiple food bits using box-shadow */
+        box-shadow: 8px -3px 0 #fb923c, -5px -2px 0 #f87171; /* Carrot & Tomato */
+        animation: food-flip 1.4s infinite ease-in-out;
+        z-index: 5;
+      }
+
+      /* Steam Lines */
+      .steam {
         position: absolute;
         top: 0;
-      }
-      .dot-flashing::before {
-        left: -15px;
-        width: 10px;
+        left: 25px;
+        width: 4px;
         height: 10px;
-        border-radius: 5px;
-        background-color: #16a34a;
-        color: #16a34a;
-        animation: dot-flashing 1s infinite alternate;
-        animation-delay: 0s;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 2px;
+        opacity: 0;
+        animation: steam-rise 1s infinite;
       }
-      .dot-flashing::after {
-        left: 15px;
-        width: 10px;
-        height: 10px;
-        border-radius: 5px;
-        background-color: #16a34a;
-        color: #16a34a;
-        animation: dot-flashing 1s infinite alternate;
-        animation-delay: 1s;
+      .steam:nth-child(2) {
+        left: 18px;
+        animation-delay: 0.2s;
       }
-      @keyframes dot-flashing {
+      .steam:nth-child(3) {
+        left: 32px;
+        animation-delay: 0.4s;
+      }
+
+      @keyframes pan-toss {
         0% {
-          background-color: #16a34a;
+          transform: rotate(0deg);
         }
-        50%,
+        25% {
+          transform: rotate(-20deg);
+        } /* Wind up / Tilt Back */
+        50% {
+          transform: rotate(15deg);
+        } /* Flick Forward */
+        75% {
+          transform: rotate(0deg);
+        } /* Return */
         100% {
-          background-color: #dcfce7;
+          transform: rotate(0deg);
+        }
+      }
+
+      @keyframes food-flip {
+        0% {
+          transform: translate(0, 0) rotate(0);
+        }
+        25% {
+          transform: translate(0, 0);
+        } /* Stay in pan during wind up */
+        55% {
+          transform: translate(0, -35px) rotate(-180deg);
+        } /* Fly High */
+        85% {
+          transform: translate(0, 0);
+        } /* Land */
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      @keyframes steam-rise {
+        0% {
+          transform: translateY(0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-15px);
+          opacity: 0;
         }
       }
 
@@ -851,7 +932,15 @@
         // 1. UI Loading State
         const originalBtnText = generateBtn.innerHTML;
         generateBtn.innerHTML = `
-                <div class="dot-flashing mx-4"></div>
+                <div class="cooking-loader">
+                    <div class="pan-wrapper">
+                        <div class="pan-body"></div>
+                        <div class="pan-handle"></div>
+                    </div>
+                    <div class="food-bits"></div>
+                    <div class="steam"></div>
+                    <div class="steam"></div>
+                </div>
             `;
         generateBtn.disabled = true;
         resultDiv.classList.add("hidden");
