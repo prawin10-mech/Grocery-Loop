@@ -857,59 +857,48 @@
         resultDiv.classList.add("hidden");
 
         try {
-          // 2. Gemini API Setup
-          const apiKey = "AIzaSyA6CXKZSAr-hx81eHg5CqOu8Mfhe6meU-A"; // System provides key at runtime
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+          // 2. SECURE WEBHOOK CALL (Replaces direct API call)
+          // Updated with your new n8n URL
+          const webhookUrl =
+            "https://praveen-n8n-workflow.duckdns.org/webhook/2757b13e-4b77-4bce-9fcc-89505d997f87";
 
-          // 3. The Prompt Strategy
-          // We prompt Gemini to act as a "Budget Chef" and mix user ingredients with "Sale" items.
-          const prompt = `
-                    You are a budget-savvy chef for a grocery savings app.
-                    
-                    The user has these ingredients: "${ingredients}".
-                    
-                    Assume the following items are ON SALE at the local store this week (Simulated Data):
-                    - Canned Tomatoes ($0.89)
-                    - Pasta ($0.99/box)
-                    - Frozen Spinach ($1.00)
-                    - Chicken Thighs ($1.29/lb)
-                    - Rice ($1.50/bag)
-                    - Onions ($2.00/bag)
-                    
-                    TASK: Create a single, delicious, low-cost recipe that combines what the user has with some of these sale items. 
-                    
-                    FORMAT: Use Markdown.
-                    1. Title (Bold)
-                    2. "Why this is cheap" (One sentence explanation)
-                    3. Ingredients List (Mark which ones are "From Your Fridge" vs "On Sale")
-                    4. Simple 3-4 step instructions.
-                    
-                    Keep the tone encouraging and money-smart. Use emojis.
-                `;
-
-          // 4. API Call
-          const response = await fetch(url, {
+          const response = await fetch(webhookUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+            // This is the body sent to n8n
             body: JSON.stringify({
-              contents: [
-                {
-                  parts: [{ text: prompt }],
-                },
-              ],
+              ingredients: ingredients,
             }),
           });
 
+          if (!response.ok) {
+            throw new Error("Webhook failed");
+          }
+
           const data = await response.json();
 
-          // 5. Parse Response
-          if (data.candidates && data.candidates[0].content) {
-            const aiText = data.candidates[0].content.parts[0].text;
+          // 3. Parse Response from n8n
+          let recipeText = null;
 
-            // Convert Markdown to HTML using 'marked' library
-            contentDiv.innerHTML = marked.parse(aiText);
+          // Check for the specific Gemini Raw structure you are receiving
+          if (
+            data.content &&
+            data.content.parts &&
+            data.content.parts[0] &&
+            data.content.parts[0].text
+          ) {
+            recipeText = data.content.parts[0].text;
+          }
+          // Fallback: Check for simple keys just in case
+          else {
+            recipeText =
+              data.recipe || data.text || data.output || data.response;
+          }
+
+          if (recipeText) {
+            contentDiv.innerHTML = marked.parse(recipeText);
 
             // Show Result
             resultDiv.classList.remove("hidden");
@@ -917,12 +906,15 @@
             // Scroll to result
             resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
           } else {
-            throw new Error("No response from AI");
+            console.error("Received data:", data);
+            throw new Error(
+              "No text found in webhook response. Check n8n output."
+            );
           }
         } catch (error) {
           console.error("Error:", error);
           alert(
-            "Oops! The AI Chef is taking a coffee break. Please try again."
+            "Oops! The AI Chef is taking a coffee break. Please check your Webhook URL or n8n workflow."
           );
         } finally {
           // Reset Button
